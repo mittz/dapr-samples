@@ -1,23 +1,4 @@
-# Hello World
-
-This tutorial will demonstrate how to get Dapr running locally on your machine. We'll be deploying a Go app (goapp) that subscribes to order messages and persists them. The following architecture diagram illustrates the components that make up the first part sample:
-
-![Architecture Diagram](./img/Architecture_Diagram.png)
-
-Later on, we'll deploy a different Go app (publisher) to act as the publisher. The architecture diagram below shows the addition of the new component:
-
-![Architecture Diagram Final](./img/Architecture_Diagram_B.png)
-
-## Prerequisites
-This sample requires you to have the following installed on your machine:
-- [Docker](https://docs.docker.com/)
-- [Go 1.14.x or later](https://golang.org/dl/)
-
-## Step 1 - Setup Dapr
-
-Follow [instructions](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#environment-setup) to download and install the Dapr CLI and initialize Dapr.
-
-## Step 2 - Understand the Code
+# Understand the Code
 
 Now that we've locally set up Dapr, clone the repo, then navigate to the Hello World sample:
 
@@ -100,13 +81,13 @@ This calls out to our Redis cache to grab the latest value of the "order" key, w
 
 > **Note**: If we only expected to have a single instance of the Go app (goapp), and didn't expect anything else to update "order", we instead could have kept a local version of our order state and returned that (reducing a call to our Redis store). We would then create a `/state` POST endpoint, which would allow Dapr to initialize our app's state when it starts up. In that case, our Go app (goapp) would be _stateful_.
 
-## Step 3 - Run the Go App (goapp) with Dapr
+# Run the Go App (goapp) with Dapr
 
-1. Run Go app (goapp) with Dapr:
+Run Go app (goapp) with Dapr:
 
-    ```sh
-    dapr run --app-id goapp --app-port 8080 --port 3500 go run app.go
-    ```
+```sh
+dapr run --app-id goapp --app-port 8080 --port 3500 go run app.go
+```
 
 The command should output text that looks like the following, along with logs:
 
@@ -138,7 +119,7 @@ daprStateURI = fmt.Sprintf("http://%s/v1.0/state/%s", daprAddr, stateStoreName)
 
 While in this sample we used the default yaml files, usually a developer would modify them or create custom yaml definitions depending on the application and scenario.
 
-## Step 4 - Post Messages to your Service
+# Post Messages to your Service
 
 Now that Dapr and our Go app (goapp) are running, let's POST messages against it, using different tools. **Note**: here we're POSTing against port 3500 - if you used a different port, be sure to update your URL accordingly.
 
@@ -180,7 +161,7 @@ POST http://localhost:3500/v1.0/invoke/goapp/method/neworder
 
 Last but not least, we can use the Postman GUI. For more details on how to test this with Postman, please refer to [dapr/samples](https://github.com/dapr/samples/blob/master/1.hello-world/README.md)
 
-## Step 5 - Confirm Successful Persistence
+# Confirm Successful Persistence
 
 Now, let's just make sure that our order was successfully persisted to our state store. Create a GET request against: `http://localhost:3500/v1.0/invoke/goapp/method/order`. **Note**: Again, be sure to reflect the right port if you chose a port other than 3500.
 
